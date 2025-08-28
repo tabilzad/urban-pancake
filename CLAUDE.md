@@ -23,11 +23,13 @@ This is a Receipt Printer Hackathon project that allows participants to build a 
 
 ### Kotlin Development & Testing
 - `./submit.sh` - Submit challenge.kt to hackathon server for compilation testing
+- `./print.sh` - Test print functionality using test-receipt.json with our interpreter
 - **IMPORTANT**: Always run `./submit.sh` after making changes to challenge.kt to check for compilation errors
-- The script submits to team "urban-pancake" and provides detailed error feedback
+- **WORKFLOW**: `./submit.sh` → `./print.sh` to test compilation then execution
+- The scripts submit to team "urban-pancake" and provide detailed error feedback
 - Requires Next.js dev server running to use the API proxy
 - Uses `jq` for proper JSON escaping to avoid control character errors
-- ✅ **VERIFIED WORKING** - Successfully compiles and caches interpreter
+- ✅ **VERIFIED WORKING** - Successfully compiles, caches, and executes interpreter (46 commands generated)
 
 ### Network Requirements
 ⚠️ **IMPORTANT**: Must be connected to `192.168.29.*` network for server communication and printer access during hackathon.

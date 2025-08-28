@@ -74,20 +74,20 @@ Inserts dynamic data from the POS system.
 ```json
 {
   "type": "dynamic",
-  "field": "{store_name}"
+  "field": "{{STORE_NAME}}"
 }
 ```
 
 Available fields:
-- `{store_name}` - Store name
-- `{store_address}` - Store address
-- `{cashier_name}` - Cashier name
-- `{timestamp}` - Current date/time
-- `{order_number}` - Order number
-- `{subtotal}` - Subtotal amount
-- `{tax}` - Tax amount
-- `{total}` - Total amount
-- `{item_list}` - List of purchased items
+- `{{STORE_NAME}}` - Store name
+- `{{STORE_ADDRESS}}` - Store address
+- `{{CASHIER_NAME}}` - Cashier name
+- `{{TIMESTAMP}}` - Current date/time
+- `{{ORDER_NUMBER}}` - Order number
+- `{{SUBTOTAL}}` - Subtotal amount
+- `{{TAX}}` - Tax amount
+- `{{TOTAL}}` - Total amount
+- `{{ITEM_LIST}}` - List of purchased items
 
 ### 7. Feed Element
 Adds blank lines (paper feed).
@@ -121,7 +121,7 @@ Adds blank lines (paper feed).
     },
     {
       "type": "dynamic",
-      "field": "{timestamp}"
+      "field": "{{TIMESTAMP}}"
     },
     {
       "type": "feed",
@@ -133,7 +133,7 @@ Adds blank lines (paper feed).
     },
     {
       "type": "dynamic",
-      "field": "{order_number}"
+      "field": "{{ORDER_NUMBER}}"
     },
     {
       "type": "feed",
@@ -141,7 +141,7 @@ Adds blank lines (paper feed).
     },
     {
       "type": "dynamic",
-      "field": "{item_list}"
+      "field": "{{ITEM_LIST}}"
     },
     {
       "type": "divider"
@@ -155,7 +155,7 @@ Adds blank lines (paper feed).
     },
     {
       "type": "dynamic",
-      "field": "{total}"
+      "field": "{{TOTAL}}"
     },
     {
       "type": "feed",

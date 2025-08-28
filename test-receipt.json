@@ -38,7 +38,7 @@
     },
     {
       "type": "dynamic",
-      "field": "{order_number}"
+      "field": "{{ORDER_NUMBER}}"
     },
     {
       "type": "text",
@@ -46,7 +46,7 @@
     },
     {
       "type": "dynamic",
-      "field": "{timestamp}"
+      "field": "{{TIMESTAMP}}"
     },
     {
       "type": "feed",
@@ -64,7 +64,7 @@
     },
     {
       "type": "dynamic",
-      "field": "{item_list}"
+      "field": "{{ITEM_LIST}}"
     },
     {
       "type": "divider"
@@ -79,7 +79,7 @@
     },
     {
       "type": "dynamic",
-      "field": "{subtotal}"
+      "field": "{{SUBTOTAL}}"
     },
     {
       "type": "feed",
@@ -91,7 +91,7 @@
     },
     {
       "type": "dynamic",
-      "field": "{tax}"
+      "field": "{{TAX}}"
     },
     {
       "type": "feed",
@@ -110,7 +110,7 @@
     },
     {
       "type": "dynamic",
-      "field": "{total}",
+      "field": "{{TOTAL}}",
       "style": {
         "bold": true,
         "size": "LARGE"
