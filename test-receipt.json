@@ -1,0 +1,179 @@
+{
+  "elements": [
+    {
+      "type": "clear"
+    },
+    {
+      "type": "alignment",
+      "alignment": "CENTER"
+    },
+    {
+      "type": "text",
+      "content": "BYTE BURGERS",
+      "style": {
+        "bold": true,
+        "size": "XLARGE"
+      }
+    },
+    {
+      "type": "text",
+      "content": "Store #001"
+    },
+    {
+      "type": "feed",
+      "lines": 1
+    },
+    {
+      "type": "divider",
+      "character": "=",
+      "length": 48
+    },
+    {
+      "type": "alignment",
+      "alignment": "LEFT"
+    },
+    {
+      "type": "text",
+      "content": "Order #"
+    },
+    {
+      "type": "dynamic",
+      "field": "{order_number}"
+    },
+    {
+      "type": "text",
+      "content": "            Date: "
+    },
+    {
+      "type": "dynamic",
+      "field": "{timestamp}"
+    },
+    {
+      "type": "feed",
+      "lines": 1
+    },
+    {
+      "type": "divider"
+    },
+    {
+      "type": "text",
+      "content": "ITEMS:",
+      "style": {
+        "bold": true
+      }
+    },
+    {
+      "type": "dynamic",
+      "field": "{item_list}"
+    },
+    {
+      "type": "divider"
+    },
+    {
+      "type": "alignment",
+      "alignment": "RIGHT"
+    },
+    {
+      "type": "text",
+      "content": "Subtotal: "
+    },
+    {
+      "type": "dynamic",
+      "field": "{subtotal}"
+    },
+    {
+      "type": "feed",
+      "lines": 1
+    },
+    {
+      "type": "text",
+      "content": "Tax (8.0%): "
+    },
+    {
+      "type": "dynamic",
+      "field": "{tax}"
+    },
+    {
+      "type": "feed",
+      "lines": 1
+    },
+    {
+      "type": "divider"
+    },
+    {
+      "type": "text",
+      "content": "TOTAL: ",
+      "style": {
+        "bold": true,
+        "size": "LARGE"
+      }
+    },
+    {
+      "type": "dynamic",
+      "field": "{total}",
+      "style": {
+        "bold": true,
+        "size": "LARGE"
+      }
+    },
+    {
+      "type": "feed",
+      "lines": 2
+    },
+    {
+      "type": "alignment",
+      "alignment": "CENTER"
+    },
+    {
+      "type": "barcode",
+      "data": "ORD123456",
+      "barcodeType": "CODE128",
+      "options": {
+        "width": "MEDIUM",
+        "height": 50,
+        "hri": true
+      }
+    },
+    {
+      "type": "feed",
+      "lines": 1
+    },
+    {
+      "type": "qrcode",
+      "data": "https://byteburgers.com/receipt/123456",
+      "options": {
+        "size": 3,
+        "errorCorrection": "H"
+      }
+    },
+    {
+      "type": "feed",
+      "lines": 2
+    },
+    {
+      "type": "divider",
+      "character": "=",
+      "length": 48
+    },
+    {
+      "type": "text",
+      "content": "Thank you for your order!",
+      "style": {
+        "size": "NORMAL"
+      }
+    },
+    {
+      "type": "text",
+      "content": "Have a great day!"
+    },
+    {
+      "type": "divider",
+      "character": "=",
+      "length": 48
+    },
+    {
+      "type": "feed",
+      "lines": 3
+    }
+  ]
+}

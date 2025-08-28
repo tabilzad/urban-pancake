@@ -21,6 +21,14 @@ This is a Receipt Printer Hackathon project that allows participants to build a 
 - `npm run start` - Start production server
 - `npm run lint` - Run ESLint
 
+### Kotlin Development & Testing
+- `./submit.sh` - Submit challenge.kt to hackathon server for compilation testing
+- **IMPORTANT**: Always run `./submit.sh` after making changes to challenge.kt to check for compilation errors
+- The script submits to team "urban-pancake" and provides detailed error feedback
+- Requires Next.js dev server running to use the API proxy
+- Uses `jq` for proper JSON escaping to avoid control character errors
+- ✅ **VERIFIED WORKING** - Successfully compiles and caches interpreter
+
 ### Network Requirements
 ⚠️ **IMPORTANT**: Must be connected to `192.168.29.*` network for server communication and printer access during hackathon.
 
@@ -34,11 +42,17 @@ This is a Receipt Printer Hackathon project that allows participants to build a 
 - **Kotlin Submission** (`src/components/KotlinSubmission.tsx`): Code editor and server submission interface
 
 ### JSON DSL Format
-The system uses a standardized JSON format defined in `docs/json-dsl-spec.md`:
-- **Elements array**: Sequential receipt elements
-- **Types**: text, barcode, qrcode, divider, dynamic, feed, image
-- **Styling**: size (SMALL/NORMAL/LARGE/XLARGE), bold, underline
-- **Dynamic fields**: {store_name}, {order_number}, {item_list}, {total}, etc.
+The system uses a standardized JSON format with comprehensive schema validation:
+- **Schema**: `receipt-schema.json` - Complete JSON schema supporting all Epson printer features
+- **Base Spec**: `docs/json-dsl-spec.md` - Original specification and examples
+- **Elements array**: Sequential receipt elements processed in order
+- **Core Types**: text, barcode, qrcode, divider, dynamic, feed, image
+- **Advanced Types**: alignment, style, linespace, clear
+- **Barcode Support**: All Epson barcode types (UPC_A, CODE128, EAN13, etc.) with width/height/HRI options
+- **QR Code Options**: Size multiplier (1-16), error correction levels (L/M/Q/H)
+- **Text Styling**: size (SMALL/NORMAL/LARGE/XLARGE), bold, underline, alignment (LEFT/CENTER/RIGHT)
+- **Extended Dynamic Fields**: store info, customer details, payment info, promotions
+- **Printer Controls**: Line spacing, canvas clearing, paper cutting
 
 ### Key Components
 - **ReceiptDesigner**: Full drag-drop interface with palette, canvas, properties panel, and sliding JSON preview

@@ -1,0 +1,316 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Receipt JSON Schema",
+  "description": "JSON schema for receipt designs that supports all Epson printer API features",
+  "type": "object",
+  "required": ["elements"],
+  "properties": {
+    "elements": {
+      "type": "array",
+      "description": "Array of receipt elements processed sequentially",
+      "items": {
+        "$ref": "#/definitions/Element"
+      }
+    }
+  },
+  "definitions": {
+    "Element": {
+      "type": "object",
+      "oneOf": [
+        {"$ref": "#/definitions/TextElement"},
+        {"$ref": "#/definitions/BarcodeElement"},
+        {"$ref": "#/definitions/QRCodeElement"},
+        {"$ref": "#/definitions/ImageElement"},
+        {"$ref": "#/definitions/DividerElement"},
+        {"$ref": "#/definitions/DynamicElement"},
+        {"$ref": "#/definitions/FeedElement"},
+        {"$ref": "#/definitions/AlignmentElement"},
+        {"$ref": "#/definitions/StyleElement"},
+        {"$ref": "#/definitions/LineSpaceElement"},
+        {"$ref": "#/definitions/ClearElement"}
+      ]
+    },
+    "TextElement": {
+      "type": "object",
+      "required": ["type", "content"],
+      "properties": {
+        "type": {
+          "const": "text"
+        },
+        "content": {
+          "type": "string",
+          "description": "Text content to print"
+        },
+        "style": {
+          "$ref": "#/definitions/TextStyle"
+        },
+        "alignment": {
+          "$ref": "#/definitions/Alignment"
+        }
+      }
+    },
+    "BarcodeElement": {
+      "type": "object",
+      "required": ["type", "data", "barcodeType"],
+      "properties": {
+        "type": {
+          "const": "barcode"
+        },
+        "data": {
+          "type": "string",
+          "description": "Data to encode in the barcode"
+        },
+        "barcodeType": {
+          "$ref": "#/definitions/BarcodeType"
+        },
+        "options": {
+          "$ref": "#/definitions/BarcodeOptions"
+        }
+      }
+    },
+    "QRCodeElement": {
+      "type": "object",
+      "required": ["type", "data"],
+      "properties": {
+        "type": {
+          "const": "qrcode"
+        },
+        "data": {
+          "type": "string",
+          "description": "Data to encode in the QR code"
+        },
+        "options": {
+          "$ref": "#/definitions/QRCodeOptions"
+        }
+      }
+    },
+    "ImageElement": {
+      "type": "object",
+      "required": ["type", "imageData"],
+      "properties": {
+        "type": {
+          "const": "image"
+        },
+        "imageData": {
+          "type": "string",
+          "description": "Base64 encoded image data"
+        }
+      }
+    },
+    "DividerElement": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "const": "divider"
+        },
+        "character": {
+          "type": "string",
+          "default": "-",
+          "description": "Character to use for the divider line"
+        },
+        "length": {
+          "type": "integer",
+          "default": 48,
+          "description": "Length of the divider line"
+        }
+      }
+    },
+    "DynamicElement": {
+      "type": "object",
+      "required": ["type", "field"],
+      "properties": {
+        "type": {
+          "const": "dynamic"
+        },
+        "field": {
+          "$ref": "#/definitions/DynamicField"
+        },
+        "style": {
+          "$ref": "#/definitions/TextStyle"
+        },
+        "alignment": {
+          "$ref": "#/definitions/Alignment"
+        }
+      }
+    },
+    "FeedElement": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "const": "feed"
+        },
+        "lines": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 1,
+          "description": "Number of blank lines to feed"
+        }
+      }
+    },
+    "AlignmentElement": {
+      "type": "object",
+      "required": ["type", "alignment"],
+      "properties": {
+        "type": {
+          "const": "alignment"
+        },
+        "alignment": {
+          "$ref": "#/definitions/Alignment"
+        }
+      }
+    },
+    "StyleElement": {
+      "type": "object",
+      "required": ["type", "style"],
+      "properties": {
+        "type": {
+          "const": "style"
+        },
+        "style": {
+          "$ref": "#/definitions/TextStyle"
+        }
+      }
+    },
+    "LineSpaceElement": {
+      "type": "object",
+      "required": ["type", "space"],
+      "properties": {
+        "type": {
+          "const": "linespace"
+        },
+        "space": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Line spacing in pixels"
+        }
+      }
+    },
+    "ClearElement": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "const": "clear"
+        }
+      }
+    },
+    "TextStyle": {
+      "type": "object",
+      "properties": {
+        "bold": {
+          "type": "boolean",
+          "default": false
+        },
+        "underline": {
+          "type": "boolean",
+          "default": false
+        },
+        "size": {
+          "$ref": "#/definitions/TextSize"
+        }
+      }
+    },
+    "TextSize": {
+      "type": "string",
+      "enum": ["SMALL", "NORMAL", "LARGE", "XLARGE"],
+      "default": "NORMAL"
+    },
+    "Alignment": {
+      "type": "string",
+      "enum": ["LEFT", "CENTER", "RIGHT"],
+      "default": "LEFT"
+    },
+    "BarcodeType": {
+      "type": "string",
+      "enum": [
+        "UPC_A",
+        "UPC_E", 
+        "EAN13",
+        "EAN8",
+        "CODE39",
+        "ITF",
+        "CODABAR",
+        "CODE93",
+        "CODE128",
+        "GS1_128",
+        "GS1_DATABAR_OMNIDIRECTIONAL",
+        "GS1_DATABAR_TRUNCATED",
+        "GS1_DATABAR_LIMITED",
+        "GS1_DATABAR_EXPANDED"
+      ]
+    },
+    "BarcodeOptions": {
+      "type": "object",
+      "properties": {
+        "width": {
+          "$ref": "#/definitions/BarcodeWidth"
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 50,
+          "description": "Height in pixels"
+        },
+        "hri": {
+          "type": "boolean",
+          "default": true,
+          "description": "Human Readable Interpretation"
+        }
+      }
+    },
+    "BarcodeWidth": {
+      "type": "string",
+      "enum": ["THIN", "MEDIUM", "THICK"],
+      "default": "MEDIUM"
+    },
+    "QRCodeOptions": {
+      "type": "object",
+      "properties": {
+        "size": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 16,
+          "default": 3,
+          "description": "Size multiplier"
+        },
+        "errorCorrection": {
+          "$ref": "#/definitions/QRErrorCorrection"
+        }
+      }
+    },
+    "QRErrorCorrection": {
+      "type": "string",
+      "enum": ["L", "M", "Q", "H"],
+      "default": "M"
+    },
+    "DynamicField": {
+      "type": "string",
+      "enum": [
+        "{store_name}",
+        "{store_address}",
+        "{store_phone}",
+        "{cashier_name}",
+        "{timestamp}",
+        "{order_number}",
+        "{order_id}",
+        "{subtotal}",
+        "{tax}",
+        "{tax_rate}",
+        "{total}",
+        "{item_list}",
+        "{item_count}",
+        "{customer_name}",
+        "{customer_phone}",
+        "{payment_method}",
+        "{change_due}",
+        "{discount}",
+        "{promotion_code}",
+        "{receipt_number}",
+        "{barcode_data}",
+        "{qr_data}"
+      ]
+    }
+  }
+}
