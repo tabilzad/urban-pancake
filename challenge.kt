@@ -132,13 +132,14 @@ fun replaceTemplateVariables(jsonString: String, order: Any? = null): String {
     
     // Define all possible template variables
     val templateVariables = listOf(
-        "{{STORE_NAME}}", "{{STORE_ADDRESS}}", "{{STORE_PHONE}}", "{{CASHIER_NAME}}",
+        "{{STORE_NAME}}", "{{STORE_NUMBER}}", "{{STORE_ADDRESS}}", "{{STORE_PHONE}}", "{{CASHIER_NAME}}",
         "{{TIMESTAMP}}", "{{ORDER_NUMBER}}", "{{ORDER_ID}}", "{{RECEIPT_NUMBER}}",
         "{{SUBTOTAL}}", "{{TAX}}", "{{TAX_AMOUNT}}", "{{TAX_RATE}}", "{{TOTAL}}", "{{DISCOUNT}}",
         "{{ITEM_LIST}}", "{{ITEM_COUNT}}",
         "{{CUSTOMER_NAME}}", "{{CUSTOMER_ID}}", "{{CUSTOMER_PHONE}}", "{{MEMBER_STATUS}}", "{{LOYALTY_POINTS}}",
         "{{PAYMENT_METHOD}}", "{{CHANGE_DUE}}", "{{PROMOTION_CODE}}",
-        "{{BARCODE_DATA}}", "{{QR_DATA}}"
+        "{{BARCODE_DATA}}", "{{QR_DATA}}",
+        "{{order_number}}", "{{item_list}}"
     )
     
     // Replace each template variable with its resolved value
@@ -171,6 +172,17 @@ fun resolveDynamicField(field: String, order: Any? = null): String {
                     "BYTE BURGERS"
                 }
             } else "BYTE BURGERS"
+        }
+        
+        "{{STORE_NUMBER}}" -> {
+            if (order != null) {
+                try {
+                    val orderObj = order as JSONObject
+                    orderObj.optString("storeNumber", "001")
+                } catch (e: Exception) {
+                    "001"
+                }
+            } else "001"
         }
         
         "{{STORE_ADDRESS}}" -> "123 Main Street"
@@ -412,6 +424,54 @@ fun resolveDynamicField(field: String, order: Any? = null): String {
         "{{PROMOTION_CODE}}" -> ""
         "{{BARCODE_DATA}}" -> "ORD${(10000..99999).random()}"
         "{{QR_DATA}}" -> "https://receipt.example.com/order/${(1000..9999).random()}"
+        
+        // Lowercase variants for compatibility
+        "{{order_number}}" -> {
+            if (order != null) {
+                try {
+                    val orderObj = order as JSONObject
+                    orderObj.optString("orderId", "A-0042")
+                } catch (e: Exception) {
+                    "A-0042"
+                }
+            } else "A-0042"
+        }
+        
+        "{{item_list}}" -> {
+            if (order != null) {
+                try {
+                    val orderObj = order as JSONObject
+                    val items = orderObj.optJSONArray("items")
+                    if (items != null && items.length() > 0) {
+                        val itemList = StringBuilder()
+                        
+                        for (i in 0 until items.length()) {
+                            val item = items.getJSONObject(i)
+                            val name = item.optString("name", "Unknown Item")
+                            val quantity = item.optInt("quantity", 1)
+                            val totalPrice = item.optDouble("totalPrice", 0.0)
+                            val unitPrice = item.optDouble("unitPrice", 0.0)
+                            
+                            itemList.append("${name.padEnd(32)} x$quantity ${"$%.2f".format(totalPrice)}")
+                            if (quantity > 1 && unitPrice > 0) {
+                                itemList.append("\\n  @ ${"$%.2f".format(unitPrice)} each")
+                            }
+                            if (i < items.length() - 1) {
+                                itemList.append("\\n")
+                            }
+                        }
+                        
+                        itemList.toString()
+                    } else {
+                        "No items"
+                    }
+                } catch (e: Exception) {
+                    "Error loading items"
+                }
+            } else {
+                "Cheeseburger                    x2      $17.98\\n  @ $8.99 each\\nFrench Fries                    x1       $3.99\\nSoft Drink                      x2       $5.98\\n  @ $2.99 each"
+            }
+        }
         
         // If unknown field, return as-is
         else -> field
